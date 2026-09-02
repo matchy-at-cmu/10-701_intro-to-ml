@@ -6,6 +6,7 @@ import sys
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import List, Tuple
 
 import numpy as np
 import pymupdf
@@ -22,10 +23,31 @@ PDF_DATE_PATTERN = re.compile(
 )
 
 Pixels = NDArray[np.uint8]
+HomeworkTemplate = Tuple[Path, Path]
 
 
 class LayoutMismatchError(Exception):
     pass
+
+
+def discover_homework_templates(repository_root: Path) -> List[HomeworkTemplate]:
+    templates = []
+    for homework_directory in sorted(repository_root.glob("hw*")):
+        if not homework_directory.is_dir():
+            continue
+
+        source = homework_directory / "latex" / "main.tex"
+        reference = homework_directory / f"{homework_directory.name}.pdf"
+        missing = [path for path in (source, reference) if not path.is_file()]
+        if missing:
+            missing_paths = ", ".join(str(path) for path in missing)
+            raise LayoutMismatchError(
+                f"{homework_directory.name} is missing layout files: {missing_paths}"
+            )
+
+        templates.append((source, reference))
+
+    return templates
 
 
 def reference_epoch(reference: pymupdf.Document) -> int:
