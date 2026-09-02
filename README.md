@@ -63,10 +63,15 @@ test from the repository root:
 uv run pytest tests/test_pdf_layout.py -q
 ```
 
-The test compiles the homework with pdfLaTeX in a temporary directory and
-checks the course handout's page sizes, prompt positions, answer boxes, and
-drawings within 0.5 pt. Added answer text and additional pages at the end are
-allowed; moving the supplied template is not.
+The test treats `hw1/hw1.pdf` as the reference image. It compiles the empty
+`hw1/hw1_latex/main.tex` with pdfLaTeX in a temporary directory, renders every
+page at 144 DPI, and compares the rendered pages. A small per-channel tolerance
+accounts for antialiasing differences between independently generated PDFs;
+font, color, geometry, page-count, and other visible changes fail the test.
+
+This is a regression test for the public empty template. Run it before adding
+answers, or from the public branch after rebasing it onto the latest template
+changes.
 
 ## Useful links
 
