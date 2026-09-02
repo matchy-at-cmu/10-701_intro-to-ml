@@ -2,12 +2,14 @@
 % Matchy self-defined commands            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Keep the course template's pdfLaTeX/OT1 text encoding. Font changes here
+% must remain local to answer content so they cannot move template anchors.
 \DeclareMathVersion{answer}
 \SetSymbolFont{operators}{answer}{OT1}{LinuxLibertineT-LF}{m}{n}
 \SetSymbolFont{letters}{answer}{U}{zeur}{m}{n}
 
 \DeclareRobustCommand{\answerfont}{%
-  \fontencoding{T1}%
+  \fontencoding{OT1}%
   \fontfamily{LinuxLibertineT-LF}%
   \selectfont
   \mathversion{answer}%
