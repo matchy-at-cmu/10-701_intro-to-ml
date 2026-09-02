@@ -81,3 +81,12 @@ uv run pytest tests/test_pdf_layout.py -q
 ## Useful links
 
 - [Course Website](https://10-701.github.io/)
+
+## Generative AI usage disclaimer
+
+The author has utilised generative AI (GPT-5) to:
+
+- Help write some sections of the README
+- Generate tests (with clear human instructions)
+- Generate some visualization code (with human inspection)
+- Convert handwritten notes to digital format
