@@ -1,0 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Matchy self-defined commands            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fontspec}
+
+\newfontfamily\answerfont[
+  Ligatures=TeX,
+  BoldFont=LinLibertine_RB.otf,
+  ItalicFont=LinLibertine_RI.otf,
+  BoldItalicFont=LinLibertine_RBI.otf
+]{LinLibertine_R.otf}
+
+\newenvironment{answer}
+  {\par\begingroup\answerfont}
+  {\par\endgroup}
+
+\DeclareRobustCommand{\ans}[1]{%
+  {\answerfont #1}%
+}
