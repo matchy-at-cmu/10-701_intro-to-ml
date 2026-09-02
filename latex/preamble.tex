@@ -2,10 +2,20 @@
 % Matchy self-defined commands            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage[subdued,italic,eulergreek]{mathastext}
+
+\MTDeclareVersion
+  {answer}
+  {T1}
+  {LinuxLibertineT-LF}
+  {m}
+  {n}
+
 \DeclareRobustCommand{\answerfont}{%
   \fontencoding{T1}%
   \fontfamily{LinuxLibertineT-LF}%
   \selectfont
+  \mathversion{answer}%
 }
 
 \newenvironment{answer}
