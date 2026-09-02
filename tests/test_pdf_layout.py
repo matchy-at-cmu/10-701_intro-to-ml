@@ -24,16 +24,16 @@ def run_layout_check(source: Path) -> subprocess.CompletedProcess[str]:
 
 
 def test_empty_hw1_visually_matches_course_handout() -> None:
-    source = REPOSITORY_ROOT / "hw1" / "hw1_latex" / "main.tex"
+    source = REPOSITORY_ROOT / "hw1" / "latex" / "main.tex"
     result = run_layout_check(source)
 
     assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_visual_change_is_rejected(tmp_path: Path) -> None:
-    homework_copy = tmp_path / "hw1" / "hw1_latex"
+    homework_copy = tmp_path / "hw1" / "latex"
     shutil.copytree(
-        REPOSITORY_ROOT / "hw1" / "hw1_latex",
+        REPOSITORY_ROOT / "hw1" / "latex",
         homework_copy,
         ignore=shutil.ignore_patterns(
             "*.aux",
@@ -45,7 +45,7 @@ def test_visual_change_is_rejected(tmp_path: Path) -> None:
             "*.synctex.gz",
         ),
     )
-    shutil.copytree(REPOSITORY_ROOT / "latex", tmp_path / "latex")
+    shutil.copytree(REPOSITORY_ROOT / "latex-commons", tmp_path / "latex-commons")
     source = homework_copy / "main.tex"
     original = source.read_text(encoding="utf-8")
     source.write_text(
@@ -64,9 +64,9 @@ def test_visual_change_is_rejected(tmp_path: Path) -> None:
 
 
 def test_global_t1_encoding_is_rejected(tmp_path: Path) -> None:
-    homework_copy = tmp_path / "hw1" / "hw1_latex"
+    homework_copy = tmp_path / "hw1" / "latex"
     shutil.copytree(
-        REPOSITORY_ROOT / "hw1" / "hw1_latex",
+        REPOSITORY_ROOT / "hw1" / "latex",
         homework_copy,
         ignore=shutil.ignore_patterns(
             "*.aux",
@@ -78,7 +78,7 @@ def test_global_t1_encoding_is_rejected(tmp_path: Path) -> None:
             "*.synctex.gz",
         ),
     )
-    shutil.copytree(REPOSITORY_ROOT / "latex", tmp_path / "latex")
+    shutil.copytree(REPOSITORY_ROOT / "latex-commons", tmp_path / "latex-commons")
     source = homework_copy / "main.tex"
     original = source.read_text(encoding="utf-8")
     source.write_text(
