@@ -2,14 +2,9 @@
 % Matchy self-defined commands            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[subdued,italic,eulergreek]{mathastext}
-
-\MTDeclareVersion
-  {answer}
-  {T1}
-  {LinuxLibertineT-LF}
-  {m}
-  {n}
+\DeclareMathVersion{answer}
+\SetSymbolFont{operators}{answer}{OT1}{LinuxLibertineT-LF}{m}{n}
+\SetSymbolFont{letters}{answer}{U}{zeur}{m}{n}
 
 \DeclareRobustCommand{\answerfont}{%
   \fontencoding{T1}%
