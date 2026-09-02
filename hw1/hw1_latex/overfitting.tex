@@ -1,0 +1,240 @@
+\section{Overfitting in 1D}
+Scotty just learned how a linear binary classifier for  $\mathbb{R}$ works. The binary labels are $\{-,+\}$. A linear classifier $C: \mathbb{R} \to \{-,+\}$ determines the label $C(x)$ associated with any $x \in \mathbb{R}$. In $\mathbb{R}$, a classifier is a linear classifier if and only if it can be formulated as follows: 
+\[
+C(x) = \begin{cases}
+    + \text{ if } wx + b \geq 0 \\
+    - \text{ else}
+\end{cases}
+\]
+where $w, b \in \mathbb{R}$ are fixed. \\
+\\
+Scotty is currently on vacation in a 1d world. He walks along a path in $\mathbb{R}$. There are two points $x^{(1)},x^{(2)}$ at positions $-1$ and $1$ respectively. 
+
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw[->] (-3, 0) -- (3,0) node[right] {$\mathbb{R}$};
+        \filldraw (-1,0) circle (2pt) node[below=3pt] {$x^{(1)}$};
+        \filldraw (1,0) circle (2pt) node[below=3pt] {$x^{(2)}$};
+    
+        \node[above=3pt] at (-1,0) {$-1$};
+        \node[above=3pt] at (1,0) {$1$};
+    \end{tikzpicture}
+\end{center}
+
+
+Scotty has a metal detector and is trying to see if there is treasure at positions $x^{(1)},x^{(2)}$. \\
+A label of ``$-$" indicates no treasure, and ``$+$" indicates treasure. In the true, unknown state of the world, there is gold under $x^{(2)}$ but no gold at $x^{(1)}$. The true label for $x^{(1)}$ is $``-"$ and for $x^{(2)}$ is $``+"$. \\
+\\
+Scotty trains a linear model to determine where there is treasure or not. However, there is noise and the metal detector is not always accurate. Let $\alpha \in [0,1]$ be the noise factor. The metal detector returns the wrong label with probability $\frac{\alpha}{2}$, independently for each measurement. (So, we can think of $\alpha$ as the probability that we replace the true label by uninformative (uniform) noise.) The probabilities are shown in the following table:
+
+
+\begin{table}[h]
+    \centering
+    \caption{Metal detector result probability}
+    \begin{tabular}{||c|cc||}
+    \hline
+        ~ & $x^{(1)}$ & $x^{(2)}$ \\ \hline \hline
+        $-$ & $1-\frac{\alpha}{2}$ & $\frac{\alpha}{2}$ \\ \hline
+        $+$ & $\frac{\alpha}{2}$ & $1-\frac{\alpha}{2}$ \\ \hline
+    \end{tabular}
+\end{table}
+
+Scotty wants to use 0-1 loss: the penalty of incorrectly predicting a value is $1$;  in other words: 
+\[L(y,\hat{y}) = \mathds{1} [y \neq \hat{y}]\]
+Scotty gets two (statistically independent) readings, one from $x^{(1)}$ and one from $x^{(2)}$, which he uses as training data. He uses the training data to create a classifier that minimises the loss (with respect to training data). \\
+\\
+\begin{enumerate}
+
+\item {\bf [2 points]} Training means picking a linear binary classifier that scores best on the \textbf{training} data. Using only two points $x^{(1)},x^{(2)}$, for training, there are only 4 unique classifiers that Scotty can pick. We will treat classifiers that induce the same labels on the same points as the same classifier. The outputs are shown the the rows of the table below. Fill in the probability that Scotty will pick each of these classifiers (with respect to the randomness in the training data). Leave answer in terms of $\alpha$.
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{||c c c||} 
+ \hline
+ Label of $x^{(1)}$ & Label of $x^{(2)}$ & Probability  \\ [0.5ex] 
+ \hline\hline
+ + & +  & \\ 
+ \hline
+ + & $-$ & \\
+ \hline
+ $-$ & + &  \\
+ \hline
+ $-$ & $-$ &\\
+ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\item {\bf [2 points]}
+To generate a test set, Scotty collects another observation randomly with equal probability from $x^{(1)}$ or $x^{(2)}$. The metal detector's probability outputs remain the same as before. \\
+For each of the four classifiers, compute the expected error on this new example (i.e., the expected test error). Leave the answer as a function of $\alpha$.
+\begin{tcolorbox}[fit,height=5cm, width=0.9\textwidth, blank, borderline={1pt}{-2pt}]
+\end{tcolorbox}
+
+
+\item {\bf [2 points]}
+What is the expected test error averaged over the randomness in the training set? Give your answer in terms of $\alpha$.
+\begin{tcolorbox}[fit,height=2.5cm, width=0.9\textwidth, blank, borderline={1pt}{-2pt}]
+\end{tcolorbox}
+
+\newpage
+
+\item {\bf [4 points]}
+Create a plot that shows three lines:
+\begin{itemize}
+    \item the expected test error at $\alpha\in \{0.0, 0.25, 0.5, 0.75, 1.0\}$
+    \item the minimum possible test error at these same values of $\alpha$ — in other words, the error if Scotty knew the correct classifier ahead of time, and evaluated it on a newly sampled test example.
+    \item the expected training error at these same values of $\alpha$.
+\end{itemize}
+
+\begin{tcolorbox}[fit,height=12cm, width=0.9\textwidth, blank, borderline={1pt}{-2pt}]
+\end{tcolorbox}
+
+
+\item {\bf [2 points]}
+The difference between the first and second lines in \textbf{part 4} is one possible measure of the amount of overfitting: the expected excess test error because our training process has to work from a limited-size, noisy training set. Similarly, the difference between the first and third lines in \textbf{part 4} is another measure: the expected optimism when comparing training to test error. At what $\alpha$ value is overfitting the worst according to each of these measures? Why?
+
+\begin{tcolorbox}[fit,height=5cm, width=0.9\textwidth, blank, borderline={1pt}{-2pt}]
+\end{tcolorbox}
+
+
+\end{enumerate}
+
+\newpage
+
+\section{Repeating the Overfitting Analysis in Two Dimensions}
+
+Scotty now visits a two-dimensional world. For a point $x=(x_1,x_2)$, an
+affine linear classifier has the form
+\[
+C_{\mathbf{w},b}(x)=
+\begin{cases}
++, & w_1x_1+w_2x_2+b\geq 0,\\
+-, & w_1x_1+w_2x_2+b<0,
+\end{cases}
+\]
+where $\mathbf{w}=(w_1,w_2)\neq(0,0)$ and $b\in\mathbb{R}$.
+
+Consider the following two sets of points, where $S_3$ consists of three
+vertices of a square and $S_4$ consists of all four vertices:
+\[
+\begin{aligned}
+S_3 &= \{x^{(1)}=(-1,-1),\ x^{(2)}=(-1,1),\ x^{(3)}=(1,1)\},\\
+S_4 &= \{x^{(1)}=(-1,-1),\ x^{(2)}=(-1,1),\ x^{(3)}=(1,1),
+        \ x^{(4)}=(1,-1)\}.
+\end{aligned}
+\]
+The noise-free labels are determined by the vertical linear classifier
+\[
+f^*(x)=
+\begin{cases}
+-, & x_1<0,\\
++, & x_1>0.
+\end{cases}
+\]
+Thus, in the point order displayed above, the noise-free label vectors are
+$(-,-,+)$ for $S_3$ and $(-,-,+,+)$ for $S_4$.
+
+As in Question 1, Scotty observes one noisy training label at every point. For
+each point independently, with probability $\alpha\in[0,1]$, the noise process
+\emph{replaces} its noise-free label with the result of a fair coin flip; with
+probability $1-\alpha$, the noise-free label is retained. Therefore
+\[
+\Pr(\text{observed label is correct})=1-\frac{\alpha}{2},
+\qquad
+\Pr(\text{observed label is incorrect})=\frac{\alpha}{2}.
+\]
+In particular, when $\alpha=1$, the observed label is equally likely to be
+$+$ or $-$, regardless of the noise-free label. For convenience, define
+\[
+q=\frac{\alpha}{2}.
+\]
+
+Scotty chooses an affine linear classifier that minimizes its average 0--1
+loss on the training set. Again, classifiers that induce the same labels on
+the finite point set are treated as one classifier. If several distinct
+induced labelings attain the same minimum training error, Scotty chooses
+uniformly at random among them. This tie-breaking rule is important for $S_4$.
+
+To obtain a test example, first choose a point uniformly from $S_m$ and then
+obtain a new, independent label using the same replacement-noise process and
+the same value of $\alpha$. In particular, the test label is independent of
+the training label conditional on the selected point.
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{\textbf{(\alph{enumi})}}
+\setlength{\itemsep}{1.5em}
+
+\item {\bf [2 points]}
+For each of $S_3$ and $S_4$, how many of the possible binary labelings are
+realizable by an affine linear classifier?  Identify any non-realizable
+labelings and explain geometrically why a straight line cannot separate their
+positive and negative points.
+\begin{tcolorbox}[height=4cm, width=\linewidth]
+
+\end{tcolorbox}
+
+\item {\bf [2 points]}
+Compute the probability that Scotty learns each possible classifier on $S_3$
+and $S_4$.  To avoid listing every classifier separately, group learned
+labelings by their Hamming distance $k$ from the noise-free label vector.  In
+your table, report (i) the number of learned labelings in each group and (ii)
+the probability of learning \emph{each individual labeling} in that group.
+Be careful to distinguish the probability of \emph{observing} a particular
+training labeling from the probability of \emph{learning} a classifier that
+induces that labeling on the point set.
+\begin{tcolorbox}[height=7cm, width=\linewidth]
+
+\end{tcolorbox}
+
+\item {\bf [2 points]}
+Suppose a learned classifier disagrees with the noise-free label vector at
+exactly $k$ of the $m$ points in $S_m$.  Compute its expected test error as a
+function of $k$, $m$, and $\alpha$.
+\begin{tcolorbox}[height=4cm, width=\linewidth]
+
+\end{tcolorbox}
+
+
+\item {\bf [2 points]}
+Average over the randomness in the training data and Scotty's tie-breaking.
+For both $S_3$ and $S_4$, compute (i) the expected training error and (ii) the
+expected test error.
+\begin{tcolorbox}[height=5cm, width=\linewidth]
+
+\end{tcolorbox}
+
+\item {\bf [4 points]}
+Make two plots, one for $S_3$ and one for $S_4$. On each plot, show:
+\begin{itemize}
+    \item the expected test error at $\alpha\in\{0,0.25,0.5,0.75,1\}$.
+    \item the minimum possible expected test error at each of these $\alpha$ values for an oracle that knows $f^*$. 
+    \item the expected training error at each $\alpha$.
+\end{itemize}
+Where is overfitting the worst, according to the difference between the first and second lines, and the difference between the first and third lines?
+
+\begin{tcolorbox}[height=6cm, width=\linewidth]
+
+\end{tcolorbox}
+
+
+
+\item {\bf [3 points]}
+You probably noticed that, on $S_4$, Scotty sometimes obtains strictly positive
+training error, unlike the earlier setups.  Qualitatively, how does the
+analysis change if we replace affine linear classifiers with a more expressive
+hypothesis class that can realize all $16$ labelings of $S_4$ and therefore
+always attain zero training error?  What happens to our measures of overfitting?
+\begin{tcolorbox}[height=5cm, width=\linewidth]
+
+\end{tcolorbox}
+
+
+
+\end{enumerate}
+
+
+
+
+\newpage
