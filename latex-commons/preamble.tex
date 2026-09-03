@@ -8,12 +8,66 @@
 \SetSymbolFont{operators}{answer}{OT1}{LinuxLibertineT-LF}{m}{n}
 \SetSymbolFont{letters}{answer}{U}{zeur}{m}{n}
 
+\makeatletter
+
+% Give literal + and - the same glyph width inside answer content.  The
+% original characters are retained so their fonts still follow the active
+% math version, and \mathpalette keeps the sizing correct in scripts.
+\def\answer@plainplus{\mathchar"202B}
+\def\answer@plainminus{\mathchar"2200}
+
+\def\answer@equalwidth@aux#1#2{%
+  \setbox\z@=\hbox{$\m@th#1\answer@plainplus$}%
+  \setbox\tw@=\hbox{$\m@th#1\answer@plainminus$}%
+  \dimen@=\wd\z@
+  \ifdim\wd\tw@>\dimen@
+    \dimen@=\wd\tw@
+  \fi
+  \hbox to \dimen@{\hfil$\m@th#1#2$\hfil}%
+}
+
+\def\answer@equalplus{%
+  \mathbin{\mathpalette\answer@equalwidth@aux\answer@plainplus}%
+}
+
+\def\answer@equalminus{%
+  \mathbin{\mathpalette\answer@equalwidth@aux\answer@plainminus}%
+}
+
+\begingroup
+\catcode`\~=\active
+\lccode`\~=`\+
+\lowercase{\endgroup
+  \def\answer@activateplus{%
+    \mathcode`\+="8000\relax
+    \def~{\answer@equalplus}%
+  }%
+}
+
+\begingroup
+\catcode`\~=\active
+\lccode`\~=`\-
+\lowercase{\endgroup
+  \def\answer@activateminus{%
+    \mathcode`\-="8000\relax
+    \def~{\answer@equalminus}%
+  }%
+}
+
+\def\answer@equalsigns{%
+  \answer@activateplus
+  \answer@activateminus
+}
+
 \DeclareRobustCommand{\answerfont}{%
   \fontencoding{OT1}%
   \fontfamily{LinuxLibertineT-LF}%
   \selectfont
   \mathversion{answer}%
+  \answer@equalsigns
 }
+
+\makeatother
 
 \newenvironment{answer}
   {\par\begingroup\answerfont}
