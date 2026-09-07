@@ -4,7 +4,7 @@ import re
 import subprocess
 import sys
 import tempfile
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Tuple
 
@@ -70,7 +70,7 @@ def reference_epoch(reference: pymupdf.Document) -> int:
                 "second",
             )
         ),
-        tzinfo=UTC,
+        tzinfo=timezone.utc,
     )
     return int(timestamp.timestamp())
 
