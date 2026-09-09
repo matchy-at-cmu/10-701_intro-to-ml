@@ -1,0 +1,9 @@
+{
+  "disabled": [
+    "GitHub.copilot-chat",
+    "openai.chatgpt",
+    "anthropic.claude-code"
+  ],
+  "autoReload": true,
+  "openInNewWindow": false
+}
