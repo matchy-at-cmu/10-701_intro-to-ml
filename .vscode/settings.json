@@ -22,5 +22,8 @@
         "%DOC%"
       ]
     }
-  ]
+  ],
+  "github.copilot.enable": {
+    "*": false
+  }
 }
