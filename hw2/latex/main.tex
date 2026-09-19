@@ -1,0 +1,156 @@
+\documentclass{article}
+\usepackage{lmodern}
+\usepackage{anyfontsize}
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{bm}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{float}
+\usepackage{graphics}
+\setlength{\marginparwidth}{2.15cm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{epsfig}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage[normalem]{ulem}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows, automata}
+\usepackage{pgfplots}
+\usepackage[font=scriptsize]{subcaption}
+\usepackage{float}
+\usepackage[]{algorithm2e}
+\usepackage{environ}
+\usepackage{bbm}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage{lastpage}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{marvosym}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[many]{tcolorbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wasysym}
+\usepackage{cancel}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{soul}
+
+
+%%% old packages
+\usepackage{fullpage}
+\usepackage{sectsty}
+\usepackage{amsfonts}
+
+\input{../../latex-commons/preamble.tex}
+
+% Define all course dates in a single file
+\input{common/dates.tex}
+
+% Define all course links in a single file
+\input{common/links.tex}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\blackcircle}{\tikz\draw[black,fill=black] (0,0) circle (1ex);}
+\renewcommand{\circle}{\tikz\draw[black] (0,0) circle (1ex);}
+\DeclareMathOperator{\sign}{sign}
+
+\input{math.tex}
+
+% SOLUTIONFs environment
+\NewEnviron{soln}{
+\leavevmode\color{red}\ignorespaces \textbf{Solution} \BODY }{}
+
+% QUESTION AUTHORS environment
+\NewEnviron{qauthor}{
+\leavevmode\color{blue}\ignorespaces \textbf{Author} \BODY}{}
+
+
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom box for highlights               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define box and box title style
+\tikzstyle{mybox} = [fill=blue!10, very thick,
+    rectangle, rounded corners, inner sep=1em, inner ysep=1em]
+
+\NewEnviron{notebox}{
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{\textwidth}
+        \BODY
+    \end{minipage}
+};
+\end{tikzpicture}
+}
+
+\begin{document}
+
+\section*{}
+\begin{center}
+  \centerline{\textsc{\LARGE  Homework 2}}
+  \vspace{0.5em}
+  \centerline{\textsc{\large Linear Regression, Logistic Regression, and MLE/MAP}\footnote{Compiled on \today{} at \currenttime{}}}
+  \vspace{1em}
+  \textsc{\large CMU 10-701: Machine Learning (\currentsemester)} \\
+  \vspace{0.5em}
+  \currentpiazza \\
+  \vspace{0.5em}
+  \centerline{OUT: \hwTwoRelease}
+  \vspace{0.5em}
+  \centerline{DUE: \hwTwoDue, 11:59pm}
+\end{center}
+
+\section*{START HERE: Instructions}
+\begin{itemize}
+\item \textbf{Collaboration policy:} Collaboration on solving the homework is allowed, after you have thought about the problems on your own. It is also OK to get clarification (but not solutions) from books or online resources, again after you have thought about the problems on your own. There are two requirements: first, cite your collaborators fully and completely (e.g., ``Jane explained to me what is asked in Question 2.1''). Second, write your solution {\em independently}: close the book and all of your notes, and send collaborators out of the room, so that the solution comes from you only. See the Academic Integrity Section in our \href{\currentsyllabus}{Course Syllabus} for more information.
+
+\item\textbf{Late Submission Policy:} See the late homework policy in our \href{\currentsyllabus}{Course Syllabus}
+
+\item\textbf{Submitting your work to Gradescope:} There will be two submission slots for this homework on Gradescope, the Written and the Programming:
+
+\begin{itemize}
+
+\item For the written problems such as short answer, multiple choice, derivations, proofs, or plots, we will be using the written submission slot. Please use the provided template. The best way to format your homework is by using the Latex template released in the handout and writing your solutions in Latex. However submissions can be handwritten onto the template, but should be labeled and clearly legible. If your writing is not legible, you will not be awarded marks.  Each derivation/proof should be  completed in the boxes provided below the question, \textbf{you should not move or change the sizes of these boxes} as Gradescope is expecting your solved homework PDF to match the template on Gradescope. If you find you need more space than the box provides you should consider cutting your solution down to its relevant parts, if you see no way to do this, please add an additional page at the end of the homework and guide us there with a 'See page xx for the rest of the solution'.
+\item You are also required to upload your code, which you wrote to solve the final questions of this homework, to the Programming submission slot. Your code may be run by TAs so please make sure it is in a workable state. \item \textbf{Programming submission limit:} At most 5 submissions in any rolling 60-minute period; no limit during the final 180 minutes before the deadline.
+
+\end{itemize}
+Regrade requests can be made after the homework grades are released, however this gives the TA the opportunity to regrade your entire paper, meaning if additional mistakes are found then points will be deducted.
+\end{itemize}
+
+For multiple choice or select all that apply questions, shade in the box or circle in the template document corresponding to the correct answer(s) for each of the questions. For \LaTeX\ users, use $\blacksquare$ and \blackcircle\  for shaded boxes and circles, and don't change anything else. If an answer box is included for showing work, \textbf{you must show your work}!
+
+\clearpage
+\input{01_linReg}
+
+\clearpage
+\input{02_LogReg}
+
+\clearpage
+\input{03_programming}
+
+\clearpage
+\input{04_collaboration.tex}
+
+\end{document}
