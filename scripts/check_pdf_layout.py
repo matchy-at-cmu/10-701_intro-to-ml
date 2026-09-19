@@ -17,6 +17,11 @@ RENDER_DPI = 144
 # apart. Larger per-channel differences still expose visible content changes.
 MAX_CHANNEL_DELTA = 20
 MAX_CHANGED_PIXELS_PER_PAGE = 8
+# The handout's first page contains a compile timestamp that changes between
+# builds. Coordinates are normalized to the rendered page dimensions.
+IGNORED_REGIONS = {
+    0: ((0.20, 0.84, 0.50, 0.90),),
+}
 PDF_DATE_PATTERN = re.compile(
     r"^D:(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})"
     r"(?P<hour>\d{2})(?P<minute>\d{2})(?P<second>\d{2})Z$"
@@ -144,6 +149,12 @@ def compare_documents(
 
         channel_delta = np.abs(expected.astype(np.int16) - actual.astype(np.int16))
         changed_pixels = np.any(channel_delta > MAX_CHANNEL_DELTA, axis=2)
+        for left, top, right, bottom in IGNORED_REGIONS.get(page_number, ()):
+            height, width = changed_pixels.shape
+            changed_pixels[
+                int(top * height) : int(bottom * height),
+                int(left * width) : int(right * width),
+            ] = False
         changed_count = int(np.count_nonzero(changed_pixels))
         if changed_count > MAX_CHANGED_PIXELS_PER_PAGE:
             raise LayoutMismatchError(

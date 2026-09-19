@@ -1,0 +1,70 @@
+\section{Convexity of Logistic Regression [20 points]}
+In this problem, we will study a function that arises in logistic regression. 
+No prior knowledge of logistic regression is required. Everything needed to solve the problem is defined below, and the main goal is to reason about convexity.
+
+Consider a binary classification problem with labels $y_i \in \{0,1\}$ and inputs $x_i \in \mathbb{R}^d$. For this problem, define the logistic regression model directly by
+\begin{equation*}
+    P(y_i=1 \mid x_i,w)=\sigma(w^\top x_i), \qquad \sigma(z)=\frac{1}{1+\exp(-z)}.
+\end{equation*} 
+
+\subsection{Convex Optimization}
+The corresponding log-likelihood is 
+\begin{equation*}
+    \mathcal{L}(w) = \log P(y|\mathbf{X}, w) = \sum_{i=1}^n[y_i w^\top x_i - \log(1+ \exp(w^\top x_i))].
+\end{equation*}
+Our goal is to find the weight vector $w$ that maximizes this likelihood. In this question, you will prove that $\mathcal{L}$ is indeed a concave function (and hence, the negative conditional log likelihood is a convex function). 
+
+\begin{enumerate}
+    \item \textbf{[3 points]} A real-valued function $f:S \rightarrow \mathcal{R}$ defined on a convex set S, is said to be \textit{convex} if $$f(tx_{1}+(1-t)x_{2})\leq tf(x_{1})+(1-t)f(x_{2}), \forall x_{1},x_{2}\in S,\forall t\in [0,1].$$
+    Show that a linear combination of $n$ convex functions, $f_1, f_2,...,f_n$, $\sum_{i=1}^n a_if_i(x)$ is also a convex function  $\forall a_i \in R^+$. 
+
+
+\begin{tcolorbox}[fit,height=7cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+\clearpage
+\item \textbf{[1 point]} Show that a linear combination of $n$ concave functions, $f_1, f_2,...,f_n$, $\sum_{i=1}^n a_if_i(x)$ is also a concave function  $\forall a_i \in R^+$. Recall that if a function $f(x)$ is convex, then $-f(x)$ is concave. (You can use the result from part (1).) 
+    
+
+\begin{tcolorbox}[fit,height=7cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+  
+\item \textbf{[3 points]} Another property of twice differentiable convex functions is that the second derivative is non-negative. Using this property, show that $f (x) = \log (1 + \exp x)$ is a convex function. Note that this property is both sufficient and necessary once we assume that $f$ is twice differentiable: i.e., (if $f''(x)$ exists, then $f''(x)\ge 0 \iff  f$ is convex).
+    
+\begin{tcolorbox}[fit,height=7cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+
+\end{tcolorbox}
+\clearpage
+\item \textbf{[3 points]} Let $f_i:\mathcal{S} \rightarrow \mathcal{R}$ for $i = 1, \ldots, n$ be a set of convex functions.
+Is $f(x) = \max_i f_i(x)$ also convex?
+If yes, prove it. 
+If not, provide a counterexample.  
+
+
+\begin{tcolorbox}[fit,height=6cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+\item \textbf{[8 points]} Show that the log likelihood of \textit{Logistic Regression} is a concave function. You may use the fact that if $f$ and $g$ are both convex and twice differentiable, and if $g$ is non-decreasing, then $g \circ f$ is convex.
+    
+    
+\begin{tcolorbox}[fit,height=12cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+\newpage
+
+\item \textbf{[2 points]} Unfortunately, for this model, we cannot derive a closed-form solution with MLE. However, now that we have proven that $\mathcal{L}$ is concave, are there other methods we can use to solve for $w$? Is any method guaranteed to find the ``best" solution, where ``best" means achieving the lowest loss? In a few short words, explain why or why not.
+
+\begin{tcolorbox}[fit,height=6cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+  
+\end{enumerate}
