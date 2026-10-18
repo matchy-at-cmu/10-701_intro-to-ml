@@ -24,7 +24,8 @@ IGNORED_REGIONS = {
 }
 PDF_DATE_PATTERN = re.compile(
     r"^D:(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})"
-    r"(?P<hour>\d{2})(?P<minute>\d{2})(?P<second>\d{2})Z$"
+    r"(?P<hour>\d{2})(?P<minute>\d{2})(?P<second>\d{2})"
+    r"(?P<tz>Z|(?P<tz_sign>[+-])(?P<tz_hour>\d{2})'(?P<tz_minute>\d{2})')$"
 )
 
 Pixels = NDArray[np.uint8]
@@ -63,6 +64,9 @@ def reference_epoch(reference: pymupdf.Document) -> int:
             "Reference PDF needs a UTC creation date for a reproducible build"
         )
 
+    # The handout's ``datetime`` package renders SOURCE_DATE_EPOCH as a UTC
+    # wall-clock value. Preserve the clock fields from the reference PDF so
+    # its printed compile time is reproduced regardless of its PDF timezone.
     timestamp = datetime(
         *(
             int(match.group(name))
