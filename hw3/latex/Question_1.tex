@@ -1,0 +1,62 @@
+\section{Regularization [11 Points]}
+
+\begin{enumerate}
+
+\item Lasso is another form of regularized linear regression, where the L1 norm of the parameter vector is penalized. It is used in an attempt to get a sparse parameter vector where features of little ``importance'' are assigned zero weight. But how does L1 regularization encourage sparse parameters? In the following questions, you are going to examine this.
+
+Let $\Xv$ denote an $n \times d$ matrix where rows are training points, $\yv$ denote an $n \times 1$ vector of their corresponding targets, $\wv$ denote a $d \times 1$ parameter vector and $\wv^\star$ denote the optimal parameter vector. To make the analysis easier we will consider the special case where the training data is whitened (i.e., $X^\top X = I$). For lasso regression, the optimal parameter vector is given by
+\begin{align*}
+\wv^\star = \argmin_{\wv} J_\lambda(\mathbf{w}),
+\end{align*}
+where $J_\lambda(\mathbf{w})$ is the function we want to minimize, which is given by
+\begin{align*}
+    J_\lambda(\mathbf{w}) = \frac{1}{2} \|\yv - X\wv\|_2^2 + \lambda \|\wv\|_1,
+\end{align*}
+for some $\lambda > 0$. Note that the $L_1$ norm of a vector $\mathbf{w} = [w_1, \ldots ,w_d]^\top \in \mathbb{R}^d$ is defined as $\|\mathbf{w}\|_1 = |w_1| + \ldots + |w_d|$.
+
+
+
+In \ref{greater} and \ref{less}, we will show that whitening the training data nicely decouples the features, making $w_i^\star$ determined solely by the $i$th feature and the output, independent of all the other features. To show this, we begin by writing $J_\lambda (\wv)$ as
+    \begin{align*}
+    J_\lambda (\wv)
+        =& \frac{1}{2} \left(\yv - X\wv\right)^\top\left(\yv - X\wv\right) + \lambda \|\wv\|_1 \\
+        =& \frac{1}{2}(\yv^\top \yv - 2 \yv^\top X \mathbf{w} + \mathbf{w}^\top X^\top X \mathbf{w}) + \lambda \| \mathbf{w} \|_1 \\
+        =& \frac{1}{2}\yv^\top \yv + \sum_{i=1}^d \left(-\yv^\top X_{\cdot i} w_i + \frac{1}{2}w_i^2 + \lambda  |w_i| \right)
+    \end{align*}
+where $X_{\cdot i}$ is the $i$th column of $X$.
+\clearpage
+\begin{enumerate}
+
+\item {\bf [3 Points]} Assume that $w_i^\star > 0$, what is the value of $w_i^\star$ in this case? \label{greater}
+
+\begin{tcolorbox}[fit,height=5cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+\item {\bf [3 Points]} Assume that $w_i^\star < 0$, what is the value of $w_i^\star$ in this case? \label{less}
+
+\begin{tcolorbox}[fit,height=5cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+\newpage
+\item {\bf [5 Points]} From \ref{greater} and \ref{less}, what is the condition for $w_i^\star$ to be 0? How can you interpret that condition? \label{lasso_cond}
+
+\begin{tcolorbox}[fit,height=18cm,width=.95\textwidth,blank,borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+\end{enumerate}
+
+\clearpage 
+
+Now let's return to ridge regression where the regularization term is replaced by $\frac{1}{2}\lambda\|\wv\|_2^2$. The corresponding optimization problem regarding $\wv_i$ is given by,
+$$-y^T\Xv_{.i}\wv_i + \frac{1}{2} \wv^2_i + \frac{1}{2} \lambda \wv^2_i$$
+
+Taking the derivative and equating to 0, we have:
+$$\wv^\star_i = \frac{y^T\Xv_{.i}}{1 + \lambda}$$
+which is equal to 0 iff $y^T\Xv_{.i}$ is precisely zero (or $\lambda$ goes to infinity). Hence, we can argue that lasso regression encourages sparsity relative to ridge regression!
+
+\end{enumerate}
