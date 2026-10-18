@@ -1,0 +1,20 @@
+\usepackage{hyperref}
+
+\newcommand{\DeclarePlainURL}[1]{%
+  \begingroup
+  \catcode35=12 % #
+  \catcode37=12 % percent sign
+  \catcode38=12 % &
+  \catcode94=12 % ^
+  \catcode95=12 % _
+  \catcode126=12 % ~
+  \DeclarePlainURLAux#1%
+}
+
+\def\DeclarePlainURLAux#1#2{%
+  \endgroup
+  \def#1{#2}%
+}
+
+\urldef{\currentpiazza}\url{https://piazza.com/cmu/fall2026/10701/home}
+\DeclarePlainURL{\currentsyllabus}{https://10-701.github.io/index.html#Syllabus}
