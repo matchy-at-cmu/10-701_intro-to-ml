@@ -14,7 +14,7 @@ NN_IMPLEMENTATION_DIRECTORY = (
     REPOSITORY_ROOT / "hw3" / "code" / "nn_implementation_code"
 )
 CHECK_DIRECTORY = REPOSITORY_ROOT / "hw3" / "code" / "check"
-DATA_DIRECTORY = REPOSITORY_ROOT / "data"
+DATA_DIRECTORY = Path(__file__).resolve().parent / "data"
 
 
 def load_base_experiment() -> ModuleType:
