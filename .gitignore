@@ -557,9 +557,8 @@ trained_tree.txt
 pruned_tree.txt
 
 # Downloaded datasets
-
 /data/
-/hw3/code/data/
+/hw3/data/
 /tests/hw3/data/
 
 
