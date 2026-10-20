@@ -559,6 +559,8 @@ pruned_tree.txt
 # Downloaded datasets
 
 /data/
+/hw3/code/data/
+/tests/hw3/data/
 
 
 # Windows
