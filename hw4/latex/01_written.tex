@@ -1,0 +1,145 @@
+\section{Convolutional Neural Networks (6 Points)}
+
+\begin{enumerate}
+
+\item \textbf{[2pts]} \textbf{Numerical answer:} Suppose the first layer of a CNN uses a $5 \times 5$ convolutional filter and outputs 3 channels. It takes as input images of size $100 \times 100$. It also uses a padding of $3$ and a stride $2$ in both input dimensions. What are the dimensions of the output of this layer?
+
+\begin{tcolorbox}[fit,height=1cm, width=8cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+%solution
+\end{tcolorbox}
+
+\item \textbf{[2pts]} \textbf{Numerical answer:} Suppose you have a CNN that takes inputs of shape $3 \times 100 \times 100$. Suppose the first convolutional layer uses $3\times 5 \times 5$ filters and outputs $8$ channels. How many parameters does this layer have (including a scalar bias for each output channel)?
+
+\begin{tcolorbox}[fit,height=1cm, width=8cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+%solution
+\end{tcolorbox}
+
+
+\item \textbf{[2 pts]} \textbf{Select all that Apply:} Which of the following statements about pointwise (sometimes called $1\times 1$) convolutions is/are true?
+\begin{quote}
+    $\Box$ Pointwise convolutions introduce non-linearity between two CNN layers \newline
+    $\Box$ A pointwise convolution can be formulated as a fully connected layer that maps each stack of pixels (across all channels) in the input to a pixel in the output
+    \newline
+    $\Box$ Pointwise convolutions can reduce the overall number of parameters in a model by reducing the total size of the following layer 
+    \newline
+    $\Box$ Pointwise convolutions preserve the number of channels but may impact other dimensions \newline
+    $\Box$ None of the above
+\end{quote}
+
+
+\end{enumerate}
+
+\clearpage
+
+\section{Recurrent Neural Networks (10 Points)}
+
+\begin{enumerate}
+
+\item Consider the following simple RNN architecture:
+
+\begin{center}
+\begin{tikzcd}[cells={nodes={draw=gray}}]
+	& {\hat{y}_1} & {\hat{y}_2} & {\hat{y}_3} \\
+	{h_0} & {h_1} & {h_2} & {h_3} \\
+	& {x_1} & {x_2} & {x_3}
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=3-4, to=2-4]
+	\arrow[from=3-3, to=2-3]
+	\arrow[from=3-2, to=2-2]
+	\arrow[from=2-2, to=1-2]
+	\arrow[from=2-3, to=1-3]
+	\arrow[from=2-4, to=1-4]
+\end{tikzcd}
+\end{center}
+
+where the dimensions of the layers and their corresponding weights are given below:
+\begin{align*}
+    \xv_t &\in \mathbb{R}^3 &\Wv_{hx} &\in \mathbb{R}^{4 \times 3}\\
+    \hv_t &\in \mathbb{R}^4 &\Wv_{hy} &\in \mathbb{R}^{2 \times 4}\\
+    \yv_t, \hat{\yv}_t &\in \mathbb{R}^2 &\Wv_{hh} &\in \mathbb{R}^{4 \times 4}
+\end{align*}
+
+The loss and update equations are:
+
+\begin{align*}
+    J &= \sum_{t=1}^3 J_t\\
+    J_t &= -\sum_{i=1}^2 y_{t,i} \log(\hat{y}_{t,i})\\
+    \hat{\yv}_t &= \sigma(\ov_t)\\
+    \ov_t &= \Wv_{hy}\hv_t\\
+    \hv_t &= \psi(\zv_t)\\
+    \zv_t &= \Wv_{hh} \hv_{t-1} + \Wv_{hx}\xv_t\\
+    \hv_0 &= 0
+\end{align*}
+
+Here, $\sigma$ is the \textbf{softmax} activation and $\psi$ is the \textbf{identity} activation (i.e., no activation). $J$ is the cross entropy loss and $t$ indicates timesteps. Note that we have no intercept terms (biases) in this architecture.
+
+In this question, you will derive the steps of the backpropagation through time algorithm that lead to the computation of $\frac{dJ}{d\textbf{W}_{hh}}$. For all parts of this question, please write your answer in terms of $\Wv_{hh}$, $\Wv_{hy}$, $\yv_t$, $\hat{\yv}_t$, $\hv_t$, and any additional terms specified in the question. 
+
+\clearpage
+
+\begin{enumerate}
+    \item \textbf{[2 pts]} What is $\Gv_{\ov_t} = \frac{\partial J}{\partial \ov_t}$? Write your solution in the first box, and show your work in the second. Write your answer in terms of $\hat{\yv}_t$ and $\yv_t$.
+    
+
+    \begin{your_solution}[title=$\frac{\partial J}{\partial \ov_t}$,height=2.5cm,width=10cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=6cm,width=15cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+    
+    \item \textbf{[4 pts]} What is $\Gv_{\hv_i} = \frac{\partial J}{\partial \hv_i}$ for an arbitrary $i \in [1,3]$? Write your solution in terms of $\Gv_{\ov_t}$, $\Wv_{hh}$, $\Wv_{hy}$ in the first box, and show your work in the second. 
+    
+    \begin{your_solution}[title=$\frac{\partial J}{\partial \hv_i}$,height=2.5cm,width=8.5cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=8cm,width=15cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+
+    \clearpage
+    
+    \item \textbf{[4 pts]} What is $\Gv_{\Wv_{hh}} = \frac{\partial J}{\partial \Wv_{hh}}$? Write your solution in terms of $\Gv_{\hv_i}$ and $\hv$ in the first box, and show your work in the second.
+    
+    \begin{your_solution}[title=$\frac{\partial J}{\partial W_{hh}}$,height=2.5cm,width=10.5cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=18cm,width=15cm]
+    % YOUR ANSWER
+
+    \end{your_solution}
+\end{enumerate}
+
+\end{enumerate}
+
+\section{Attention \& Transformers (4 Points)}
+
+\begin{enumerate}
+
+\item \textbf{[2pts]} \textbf{Short Answer: } One limiting factor in a Transformer architecture for processing longer sequence lengths is its fixed context window. Does this limitation also apply to RNNs? Why or why not?
+
+\begin{tcolorbox}[fit,height=4cm, width=15cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+%solution
+
+\end{tcolorbox}
+
+
+\item \textbf{[2 pts]} \textbf{Select One: } Given an input sequence of length $n$, how does the time complexity of the self-attention mechanism scale with $n$?
+\begin{quote}
+    $\circle$ $O(n$)\newline
+    $\circle$ $O(n \log n$)\newline
+    $\circle$ $O(n^2$)\newline
+    $\circle$ $O(n^3$)
+\end{quote}
+
+\end{enumerate}
