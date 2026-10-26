@@ -1,7 +1,7 @@
 [project]
 name = "10-701-intro-to-ml"
 version = "0.1.0"
-requires-python = "==3.9.*"
+requires-python = "==3.10.*"
 dependencies = [
     "antlr4-python3-runtime==4.11.*",
     "jupyter>=1.1.1",
@@ -27,7 +27,7 @@ dev = [
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
