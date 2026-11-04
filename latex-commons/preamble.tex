@@ -5,9 +5,16 @@
 % Keep the course template's pdfLaTeX/OT1 text encoding. Font changes here
 % must remain local to answer content so they cannot move template anchors.
 \DeclareMathVersion{answer}
-\SetSymbolFont{operators}{answer}{OT1}{LinuxLibertineT-LF}{m}{n}
-\SetSymbolFont{letters}{answer}{U}{zeur}{m}{n}
-\SetMathAlphabet{\mathbf}{answer}{U}{zeur}{b}{n}
+\SetSymbolFont{operators}{answer}{OT1}{ppl}{m}{n}
+\SetSymbolFont{letters}{answer}{OML}{zplm}{m}{it}
+\SetSymbolFont{symbols}{answer}{OMS}{zplm}{m}{n}
+\SetSymbolFont{largesymbols}{answer}{OMX}{zplm}{m}{n}
+\SetMathAlphabet{\mathbf}{answer}{OT1}{zplm}{b}{n}
+\SetMathAlphabet{\mathit}{answer}{OT1}{ppl}{m}{it}
+\SetMathAlphabet{\mathrm}{answer}{OT1}{ppl}{m}{n}
+\SetMathAlphabet{\mathnormal}{answer}{OML}{zplm}{m}{it}
+\SetMathAlphabet{\mathcal}{answer}{OMS}{zplm}{m}{n}
+\SetMathAlphabet{\mathbb}{answer}{U}{fplmbb}{m}{n}
 
 \makeatletter
 
