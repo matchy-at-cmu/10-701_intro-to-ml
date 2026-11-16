@@ -555,6 +555,7 @@ worklogs/
 
 trained_tree.txt
 pruned_tree.txt
+*.pkl
 
 # Downloaded datasets
 /data/
