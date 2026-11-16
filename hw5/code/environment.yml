@@ -1,0 +1,14 @@
+name: 10701-env-hw5
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - matplotlib
+  - pip
+  - pytorch
+  - ipykernel
+  - pip:
+    - gymnasium
+    - tqdm
