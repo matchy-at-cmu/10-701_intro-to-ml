@@ -1,0 +1,144 @@
+% Fira Code 6.2, embedded by pdfTeX with the stock TeXBase1 encoding.
+\pdfmapline{+FiraCode-Regular FiraCode-Regular "TeXBase1Encoding ReEncodeFont" <8r.enc <../../latex-commons/fonts/firacode/FiraCode-Regular.ttf}
+\pdfmapline{+FiraCode-Bold FiraCode-Bold "TeXBase1Encoding ReEncodeFont" <8r.enc <../../latex-commons/fonts/firacode/FiraCode-Bold.ttf}
+\DeclareFontFamily{T1}{answerfiracode}{}
+\DeclareFontShape{T1}{answerfiracode}{m}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Regular}{}
+\DeclareFontShape{T1}{answerfiracode}{b}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Bold}{}
+\DeclareFontShape{T1}{answerfiracode}{bx}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Bold}{}
+
+% Keep TeX's typewriter character handling within this listing.
+\newcommand{\answercodefont}{%
+  \renewcommand{\ttdefault}{answerfiracode}%
+  \fontencoding{T1}\fontshape{n}\ttfamily\selectfont
+  % TeXBase1 places the straight quote and backtick in slots 31 and 30.
+  \renewcommand{\textquotesingle}{\char31\relax}%
+  \renewcommand{\textasciigrave}{\char30\relax}%
+}
+\DeclareTextFontCommand{\answertexttt}{\answercodefont}
+
+% Fira Code has no italic face. Shear the styled token while retaining its width.
+\newsavebox{\answercodeslantbox}
+\newcommand{\answercodeslanttoken}[1]{%
+  \sbox{\answercodeslantbox}{#1}%
+  \hbox to \wd\answercodeslantbox{%
+    \pdfsave\pdfsetmatrix{1 0 .2 1}%
+    \rlap{\usebox{\answercodeslantbox}}%
+    \pdfrestore\hss
+  }%
+}
+
+% Catppuccin Latte token and bracket colors from its VS Code theme.
+\definecolor{AnswerCodeBase}{HTML}{EFF1F5}
+\definecolor{AnswerCodeBorder}{HTML}{ACB0BE}
+\definecolor{AnswerCodeText}{HTML}{4C4F69}
+\definecolor{AnswerCodeComment}{HTML}{7C7F93}
+\definecolor{AnswerCodeKeyword}{HTML}{8839EF}
+\definecolor{AnswerCodeNumber}{HTML}{FE640B}
+\definecolor{AnswerCodeOperator}{HTML}{179299}
+\definecolor{AnswerCodeFunction}{HTML}{1E66F5}
+\definecolor{AnswerCodeParameter}{HTML}{E64553}
+\definecolor{AnswerCodeString}{HTML}{40A02B}
+\definecolor{AnswerCodeBracketOne}{HTML}{D20F39}
+\definecolor{AnswerCodeBracketThree}{HTML}{DF8E1D}
+\definecolor{AnswerCodeBracketFive}{HTML}{209FB5}
+
+\makeatletter
+\newcommand{\answercodeslant}{\let\lst@alloverstyle\answercodeslanttoken}
+
+% Inside a list, start at the label edge. Elsewhere use the text margin.
+\newcommand{\answercodeleftskip}{\ifdim\@totalleftmargin>\z@ -\leftmargin\else 0pt\fi}
+
+\newif\ifanswercodehighlight
+\newcount\answercodebracketdepth
+\newcommand{\answercodebracketcolor}{%
+  \ifcase\answercodebracketdepth
+  AnswerCodeBracketOne\or AnswerCodeNumber\or AnswerCodeBracketThree%
+  \or AnswerCodeString\or AnswerCodeBracketFive\or AnswerCodeKeyword%
+  \else AnswerCodeKeyword\fi
+}
+\newcommand{\answercodeopen}[1]{%
+  \textcolor{\answercodebracketcolor}{#1}%
+  \global\advance\answercodebracketdepth by 1\relax
+  \ifnum\answercodebracketdepth=6 \global\answercodebracketdepth=0\fi
+}
+\newcommand{\answercodeclose}[1]{%
+  \ifnum\answercodebracketdepth=0 \global\answercodebracketdepth=6\fi
+  \global\advance\answercodebracketdepth by -1\relax
+  \textcolor{\answercodebracketcolor}{#1}%
+}
+
+% listings' line wrapping replaces its normal closing-parenthesis handler.
+\newcommand{\answercoderightparen}{%
+  \lst@Def{`)}{%
+    \lst@ifmode
+      \lst@breakProcessOther)%
+    \else
+      \lst@XPrintToken
+      \let\lst@scanmode\lst@scan@m
+      \lst@token{{\answercodeclose{)}}}\lst@length\@ne
+      \lst@XPrintToken
+    \fi
+  }%
+}
+
+% `listings` sends numbers and punctuation together to OutputOther. The
+% literal syntax below separates operators and brackets before number styling.
+\ExplSyntaxOn
+\cs_new_protected:Npn \answercodestyleother
+  {
+    \tl_set:No \l_tmpa_tl { \the\lst@token }
+    \exp_args:NnV \regex_match:nnTF
+      { \A (?: [0-9]+ (?: \.[0-9]* )? | \.[0-9]+ ) \Z } \l_tmpa_tl
+      { \def\lst@thestyle{\color{AnswerCodeNumber}} }
+      { }
+  }
+\ExplSyntaxOff
+\lst@AddToHook{OutputOther}{%
+  \ifanswercodehighlight
+    \lst@ifmode\else\answercodestyleother\fi
+  \fi
+}
+\makeatother
+
+% Paste code inline. Use a fixed-height tcolorbox without `fit` around it.
+% The second optional argument accepts extra listings keys for semantic names.
+\NewTCBListing{codeblock}{O{Python} O{}}{
+  listing only,
+  left skip=\answercodeleftskip,
+  colback=AnswerCodeBase,
+  colframe=AnswerCodeBorder,
+  boxrule=0.4pt, arc=3pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+  before skip=5pt, after skip=5pt,
+  listing options={
+    language=#1,
+    basicstyle={\small\answercodefont\color{AnswerCodeText}%
+        \answercodehighlighttrue\global\answercodebracketdepth=0\relax},
+    keywordstyle=\color{AnswerCodeKeyword},
+    commentstyle=\color{AnswerCodeComment}\answercodeslant,
+    stringstyle=\color{AnswerCodeString},
+    emphstyle={[1]\color{AnswerCodeParameter}\answercodeslant},
+    emphstyle={[2]\color{AnswerCodeFunction}\answercodeslant},
+    columns=fullflexible, keepspaces=true,
+    upquote=true, showstringspaces=false, breaklines=true,
+    xleftmargin=0pt, frame=none,
+    backgroundcolor=\color{AnswerCodeBase},
+    aboveskip=0pt, belowskip=0pt,
+    MoreSelectCharTable=\answercoderightparen,
+    literate=*
+        {(}{{\answercodeopen{(}}}1
+        {[}{{\answercodeopen{[}}}1 {]}{{\answercodeclose{]}}}1
+        {\{}{{\answercodeopen{\textbraceleft}}}1
+        {\}}{{\answercodeclose{\textbraceright}}}1
+        {=}{{\textcolor{AnswerCodeOperator}{=}}}1
+        {+}{{\textcolor{AnswerCodeOperator}{+}}}1
+        {-}{{\textcolor{AnswerCodeOperator}{-}}}1
+        {*}{{\textcolor{AnswerCodeOperator}{*}}}1
+        {/}{{\textcolor{AnswerCodeOperator}{/}}}1
+        {<}{{\textcolor{AnswerCodeOperator}{\textless}}}1
+        {>}{{\textcolor{AnswerCodeOperator}{\textgreater}}}1
+        {:}{{\textcolor{AnswerCodeComment}{:}}}1
+        {,}{{\textcolor{AnswerCodeComment}{,}}}1,
+    #2
+  }
+}

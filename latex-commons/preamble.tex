@@ -2,6 +2,8 @@
 % Matchy self-defined commands            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\tcbuselibrary{listings}
+
 % Keep the course template's pdfLaTeX/OT1 text encoding. Font changes here
 % must remain local to answer content so they cannot move template anchors.
 \DeclareMathVersion{answer}
@@ -71,6 +73,7 @@
   \fontencoding{OT1}%
   \fontfamily{LinuxLibertineT-LF}%
   \selectfont
+  \let\texttt\answertexttt
   \mathversion{answer}%
   \answer@equalsigns
 }
@@ -84,3 +87,5 @@
 \DeclareRobustCommand{\ans}[1]{%
   {\answerfont #1}%
 }
+
+\input{../../latex-commons/answer-code.tex}
