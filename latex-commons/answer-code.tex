@@ -1,10 +1,13 @@
 % Fira Code 6.2, embedded by pdfTeX with the stock TeXBase1 encoding.
 \pdfmapline{+FiraCode-Regular FiraCode-Regular "TeXBase1Encoding ReEncodeFont" <8r.enc <../../latex-commons/fonts/firacode/FiraCode-Regular.ttf}
 \pdfmapline{+FiraCode-Bold FiraCode-Bold "TeXBase1Encoding ReEncodeFont" <8r.enc <../../latex-commons/fonts/firacode/FiraCode-Bold.ttf}
+\pdfmapline{+FiraCode-operators FiraCode-Regular "FiraCodeOperators ReEncodeFont" <../../latex-commons/fonts/firacode/FiraCode-operators.enc <../../latex-commons/fonts/firacode/FiraCode-Regular.ttf}
 \DeclareFontFamily{T1}{answerfiracode}{}
 \DeclareFontShape{T1}{answerfiracode}{m}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Regular}{}
 \DeclareFontShape{T1}{answerfiracode}{b}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Bold}{}
 \DeclareFontShape{T1}{answerfiracode}{bx}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-Bold}{}
+\DeclareFontFamily{T1}{answerfiracodeops}{}
+\DeclareFontShape{T1}{answerfiracodeops}{m}{n}{<-> ../../latex-commons/fonts/firacode/FiraCode-operators}{}
 
 % Keep TeX's typewriter character handling within this listing.
 \newcommand{\answercodefont}{%
@@ -30,8 +33,9 @@
 % Catppuccin Latte token and bracket colors from its VS Code theme.
 \definecolor{AnswerCodeBase}{HTML}{EFF1F5}
 \definecolor{AnswerCodeBorder}{HTML}{ACB0BE}
-\definecolor{AnswerCodeText}{HTML}{4C4F69}
-\definecolor{AnswerCodeComment}{HTML}{7C7F93}
+\definecolor{AnswerCodeText}{HTML}{3F425B}
+\definecolor{AnswerCodeComment}{HTML}{85889A}
+\definecolor{AnswerCodeSeparator}{HTML}{7C7F93}
 \definecolor{AnswerCodeKeyword}{HTML}{8839EF}
 \definecolor{AnswerCodeNumber}{HTML}{FE640B}
 \definecolor{AnswerCodeOperator}{HTML}{179299}
@@ -44,6 +48,15 @@
 
 \makeatletter
 \newcommand{\answercodeslant}{\let\lst@alloverstyle\answercodeslanttoken}
+
+% Draw Fira Code's shaped operator glyphs. PDF copy/search uses the ASCII text.
+\newcommand{\answercodeligature}[2]{{%
+  \fontencoding{T1}\fontfamily{answerfiracodeops}\fontseries{m}\fontshape{n}\selectfont
+  \color{AnswerCodeOperator}%
+  \pdfliteral direct {/Span << /ActualText <#1> >> BDC}%
+  \@for\answercodeglyph:=#2\do{\char\answercodeglyph\relax}%
+  \pdfliteral direct {EMC}%
+}}
 
 % Inside a list, start at the label edge. Elsewhere use the text margin.
 \newcommand{\answercodeleftskip}{\ifdim\@totalleftmargin>\z@ -\leftmargin\else 0pt\fi}
@@ -137,8 +150,24 @@
         {/}{{\textcolor{AnswerCodeOperator}{/}}}1
         {<}{{\textcolor{AnswerCodeOperator}{\textless}}}1
         {>}{{\textcolor{AnswerCodeOperator}{\textgreater}}}1
-        {:}{{\textcolor{AnswerCodeComment}{:}}}1
-        {,}{{\textcolor{AnswerCodeComment}{,}}}1,
+        {:}{{\textcolor{AnswerCodeSeparator}{:}}}1
+        {,}{{\textcolor{AnswerCodeSeparator}{,}}}1
+        {==}{{\answercodeligature{3D3D}{32,33}}}2
+        {!=}{{\answercodeligature{213D}{35,36}}}2
+        {<=}{{\answercodeligature{3C3D}{38,39}}}2
+        {>=}{{\answercodeligature{3E3D}{40,41}}}2
+        {->}{{\answercodeligature{2D3E}{42,43}}}2
+        {=>}{{\answercodeligature{3D3E}{44,45}}}2
+        {<-}{{\answercodeligature{3C2D}{46,47}}}2
+        {**}{{\answercodeligature{2A2A}{50,51}}}2
+        {\&\&}{{\answercodeligature{2626}{54,55}}}2
+        {||}{{\answercodeligature{7C7C}{56,57}}}2
+        {:=}{{\answercodeligature{3A3D}{58,59}}}2
+        {<<}{{\answercodeligature{3C3C}{38,60}}}2
+        {>>}{{\answercodeligature{3E3E}{40,61}}}2
+        {===}{{\answercodeligature{3D3D3D}{32,32,34}}}3
+        {!==}{{\answercodeligature{213D3D}{35,32,37}}}3
+        {<=>}{{\answercodeligature{3C3D3E}{48,49,45}}}3,
     #2
   }
 }
