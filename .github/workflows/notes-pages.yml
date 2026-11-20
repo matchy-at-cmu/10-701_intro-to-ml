@@ -1,0 +1,42 @@
+name: Publish notes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'notes/**'
+      - '.github/workflows/notes-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Install Shiroa
+        run: |
+          curl --fail --location --retry 3 -o shiroa.tar.gz https://github.com/Myriad-Dreamin/shiroa/releases/download/v0.4.0-rc2/shiroa-x86_64-unknown-linux-gnu.tar.gz
+          echo '363758a6747eeacdb638634dccee177bb9cc8d2e8301bc6ec1d48fa241792f0f  shiroa.tar.gz' | sha256sum --check
+          tar -xzf shiroa.tar.gz
+          echo "$PWD/shiroa-x86_64-unknown-linux-gnu" >> "$GITHUB_PATH"
+      - name: Build notes
+        run: shiroa build --path-to-root "${{ steps.pages.outputs.base_path }}/" notes
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: notes/dist
+      - uses: actions/deploy-pages@v4
+        id: deployment
