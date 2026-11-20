@@ -19,6 +19,7 @@ concurrency:
 
 jobs:
   publish:
+    if: github.repository == 'matchy-at-cmu/10-701_intro-to-ml'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
