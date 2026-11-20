@@ -1,0 +1,2 @@
+= CNN
+#text(fill: gray)[…]

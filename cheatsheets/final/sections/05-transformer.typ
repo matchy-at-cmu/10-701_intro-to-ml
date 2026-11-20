@@ -1,0 +1,2 @@
+= Transformer
+#text(fill: gray)[…]

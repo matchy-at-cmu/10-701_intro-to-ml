@@ -1,0 +1,2 @@
+= RNN
+#text(fill: gray)[…]

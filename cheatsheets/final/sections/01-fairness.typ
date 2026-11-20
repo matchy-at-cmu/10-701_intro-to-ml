@@ -1,0 +1,2 @@
+= Fairness
+#text(fill: gray)[…]
